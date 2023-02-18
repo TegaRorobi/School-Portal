@@ -7,6 +7,8 @@ from .forms import *
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os, smtplib, ssl
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
 
 class UserCreateView(View):
 	def get(self, request):
@@ -74,3 +76,34 @@ School Name
 
 
 		return redirect('/')
+
+
+
+
+class UserLoginView(View):
+	def get(self, request, *args, **kwargs):
+		return render(request, 'users/login.html', {})
+	def post(self, request, *args, **kwargs):
+		print(request.POST)
+		if request.POST.get('login_btn'):
+			print('gotten the login button')
+			username = request.POST.get('username')
+			passkey = request.POST.get('password')
+
+			try:
+				user = authenticate(request, username=username, password=passkey)
+				if user is not None:
+					print('i have gotten a user object')
+					login(request, user)
+					print(user.username)
+					print(user.email)
+					messages.success(request, 'username has been logged in successfully')
+
+			except User.DoesNotExist:
+				messages.error(request, 'Invalid username or passkey')
+
+		return self.get(request)
+            
+        
+        
+        
