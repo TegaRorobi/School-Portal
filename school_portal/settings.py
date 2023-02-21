@@ -135,9 +135,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# STATICFILES_DIRS =  [os.path.join(BASE_DIR, 'static')]
+# directories where static files may be stored
+# STATICFILES_DIRS =  [
+#     os.path.join(BASE_DIR, 'static'), 
+#     os.path.join(BASE_DIR, 'main', 'static'), 
+#     os.path.join(BASE_DIR, 'users', 'static')
+# ]
 
-
+# the url on the site for authentication
 LOGIN_URL = '/login'
 LOGOUT_URL = '/logout'
 
@@ -148,4 +153,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # telling django that we want to override the default User model and use the ont we made in the models.py file
 AUTH_USER_MODEL = 'users.User'
 
+# just in case we want to use any crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# this email will be used to send all emails related to the site
+SITE_EMAIL = 'deciphrexx2022@gmail.com'

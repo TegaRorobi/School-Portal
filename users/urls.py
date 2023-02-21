@@ -3,5 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('', UserCreateView.as_view(), name = 'user-create'),
-    path('login/', UserLoginView.as_view(), name = 'user-login')
+    path('login/', UserLoginView.as_view(), name = 'user-login'),
+    path('json/', jsonresponse),
 ]
