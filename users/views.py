@@ -18,7 +18,7 @@ import os, smtplib, ssl
 class UserCreateView(View):
 	def get(self, request):
 		form = StudentCreateForm() if request.GET.get('account_type')=='student' else TeacherCreateForm()
-		return render(request, 'users/create.html', {'form':form})
+		return render(request, 'users/register.html', {'form':form})
 	def post(self, request):
 		print(request.POST)
 		account_type =  request.GET.get('account_type')
@@ -41,12 +41,12 @@ class UserCreateView(View):
 			msg['Subject'] = 'Thanks for registering'
 			msg['From']  = 'School Name'
 			msg.attach(MIMEText(f"""
-<h4>Hello {new_user.username}, your account has been registered successfully!</h4>
+<h4>Hello {user.username}, your account has been registered successfully!</h4>
 
 <p>Your user account has been authenticated and you can now login at (site_login_url) using either your username or email as the identifier and your password.</p>
 
 <p>Just in case you forget the password, here is a unique passkey you can use to login to your account:</p>
-<strong>{new_user.passkey}</strong>
+<strong>{user.passkey}</strong>
 
 <p>Thanks for choosing us, </p>
 <p>(school_name)</p>
@@ -59,7 +59,6 @@ class UserCreateView(View):
 		else:print('The form is not valid')
 
 		return redirect('/')
-
 
 class UserLoginView(View):
 	def get(self, request, *args, **kwargs):
@@ -77,13 +76,14 @@ class UserLoginView(View):
 				messages.error(request, 'Invalid username or password')
 		return self.get(request)
 
-
 class UserLogoutView(View):
 	def get(self, request):
 		logout(request, request.user)
 		return redirect(reverse('login'))
 
-
 def jsonresponse(request):
-	subject_list = json(Subject.objects.all())
-	return JsonResponse(subject_list, safe=False)
+	subject_list = Subject.objects.values()
+	print(Subject.objects.all())
+	print(Subject.objects.values())
+	return JsonResponse(list(subject_list), safe=False)
+

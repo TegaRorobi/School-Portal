@@ -24,7 +24,7 @@ class TeacherProfileAdmin(admin.ModelAdmin):
     def name(self, obj):
         return obj.user.username
 
-admin.site.register(Class)
+admin.site.register(Grade)
 admin.site.register(Subject)
 admin.site.register(TermResult)
 admin.site.register(YearResult)
